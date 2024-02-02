@@ -1,0 +1,19 @@
+START: mongod.exe --dbpath ./data/db
+
+
+use gfs
+show collections
+db.items.insertOne({"art": "Obst", "name": "Banane", "kosten": {"preis": 0.3, "ekpreis": 0.2}, "laeden": ["Edeka", "Rewe"]})
+db.items.insertMany([{"art": "Obst", "name": "Apfel", "kosten": {"preis": 0.2, "ekpreis": 0.1}, "herkunft": "Deutschland", "vitaminC": "Hoch"}, {"art": "Obst", "name": "Orange", "kosten": {"preis": 0.4, "ekpreis": 0.3}, "herkunft": "Spanien", "vitaminC": "Sehr hoch"}, {"art": "Obst", "name": "Kiwi", "kosten": {"preis": 0.5, "ekpreis": 0.4}, "herkunft": "Neuseeland", "vitaminC": "Moderat"}, {"art": "Getränk", "name": "Cola", "kosten": {"preis": 1.0, "ekpreis": 0.7}, "zuckerhaltig": true, "kohlensäurehaltig": false, "packungsgröße": "1.5l"}, {"art": "Getränk", "name": "Mineralwasser", "kosten": {"preis": 0.8, "ekpreis": 0.9}, "zuckerhaltig": false, "kohlensäurehaltig": true, "packungsgröße": "1l"}, {"art": "Getränk", "name": "Orangensaft", "kosten": {"preis": 1.5, "ekpreis": 1.6}, "zuckerhaltig": false, "kohlensäurehaltig": false, "packungsgröße": "750ml"}, {"art": "Gemüse", "name": "Tomate", "kosten": {"preis": 0.6, "ekpreis": 0.4}, "herkunft": "Niederlande"}, {"art": "Gemüse", "name": "Gurke", "kosten": {"preis": 0.8, "ekpreis": 0.6}, "herkunft": "Deutschland", "bio": true}, {"art": "Gemüse", "name": "Paprika", "kosten": {"preis": 1.0, "ekpreis": 0.8}, "herkunft": "Spanien"}])
+
+db.items.find({name: "Banane"})
+
+db.items.find({laeden: {$size: 2}}
+
+db.items.find({art: "Gemüse"}).sort({"kosten.preis":1, "name": 1})
+
+db.items.find({$expr: {$lt:["$kosten.preis", "$kosten.ekpreis"]}})
+
+db.items.replaceOne()
+db.items.updateMany({$expr: {$lt:["$kosten.preis", "$kosten.ekpreis"]}}, {"$inc": {"kosten.preis": -0.2}})
+
